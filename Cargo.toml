@@ -2,6 +2,7 @@
 members = [
     "archivist_bz2",
     "archivist_gz",
+    "archivist_hash",
     "archivist_tar",
     "archivist_tui",
     "archivist_xz",
