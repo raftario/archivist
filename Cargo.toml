@@ -1,3 +1,14 @@
+[package]
+name = "the_archivist"
+version = "0.1.0"
+authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
+edition = "2018"
+license = "GPL-3.0-or-later"
+
+[[bin]]
+path = "src/main.rs"
+name = "acv"
+
 [workspace]
 members = [
     "archivist_bz2",
@@ -7,5 +18,6 @@ members = [
     "archivist_tui",
     "archivist_xz",
     "archivist_zip",
-    "the_archivist",
 ]
+
+[dependencies]
