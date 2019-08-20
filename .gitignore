@@ -1,2 +1,8 @@
+target/
+**/target/
+**/
+**/*.rs.bk
+**/Cargo.lock
+
 # JetBrains files
 .idea/
