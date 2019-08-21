@@ -80,8 +80,7 @@ matrix:
 before_install:
   - set -e
   - rustup self update
-  - rustup component add rustfmt
-  - rustup component add clippy
+  - if [ ! -z $DISABLE_TESTS ]; then rustup component add rustfmt && rustup component add clippy; fi
 
 install:
   - sh ci/install.sh

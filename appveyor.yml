@@ -37,7 +37,6 @@ install:
   - rustc -Vv
   - cargo -V
 
-# TODO This is the "test phase", tweak it as you see fit
 test_script:
   # we don't run the "test phase" when doing deploys
   - if [%APPVEYOR_REPO_TAG%]==[false] (
@@ -45,7 +44,7 @@ test_script:
       cargo build --target %TARGET% --release &&
       cargo test --all --target %TARGET% &&
       cargo test --all --target %TARGET% --release &&
-      cargo clippy --all --target %TARGET% -- -D warnings &&
+      cargo clippy --all -- -D warnings &&
       cargo fmt --all -- --check
     )
 

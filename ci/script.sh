@@ -13,7 +13,7 @@ main() {
     cross test --all --target $TARGET
     cross test --all --target $TARGET --release
 
-    cross clippy --all --target $TARGET -- -D warnings
+    cargo clippy --all -- -D warnings
 
     cross fmt --all -- --check
 }
