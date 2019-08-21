@@ -1,12 +1,9 @@
 [package]
-name = "archivist_tui"
+name = "archivist_scan"
 version = "0.1.0"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
 license = "MIT"
 
 [dependencies]
-[dependencies.cursive]
-version = "0.13"
-default-features = false
-features = [ "crossterm-backend" ]
+reqwest = "0.9"

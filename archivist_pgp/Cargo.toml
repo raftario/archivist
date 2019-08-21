@@ -1,0 +1,9 @@
+[package]
+name = "archivist_pgp"
+version = "0.1.0"
+authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
+edition = "2018"
+license = "GPL-3.0-or-later"
+
+[dependencies]
+# sequoia-openpgp = "0.9"

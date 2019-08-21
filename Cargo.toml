@@ -14,6 +14,8 @@ members = [
     "archivist_archive",
     "archivist_compress",
     "archivist_hash",
+    "archivist_pgp",
+    "archivist_scan",
     "archivist_tui",
 ]
 
