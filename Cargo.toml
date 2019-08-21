@@ -1,5 +1,5 @@
 [package]
-name = "the_archivist"
+name = "archivist"
 version = "0.1.0"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
@@ -11,13 +11,23 @@ name = "acv"
 
 [workspace]
 members = [
-    "archivist_bz2",
-    "archivist_gz",
+    "archivist_archive",
+    "archivist_compress",
     "archivist_hash",
-    "archivist_tar",
     "archivist_tui",
-    "archivist_xz",
-    "archivist_zip",
 ]
 
 [dependencies]
+clap = "2"
+
+[dev-dependencies]
+[dev-dependencies.cargo-husky]
+version = "1"
+default-features = false
+features = [
+    "run-for-all",
+    "precommit-hook",
+    "run-cargo-test",
+    "run-cargo-clippy",
+    "run-cargo-fmt",
+]

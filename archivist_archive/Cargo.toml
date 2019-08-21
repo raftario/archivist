@@ -1,5 +1,5 @@
 [package]
-name = "archivist_tar"
+name = "archivist_archive"
 version = "0.1.0"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
@@ -7,3 +7,4 @@ license = "MIT"
 
 [dependencies]
 tar = "0.4"
+zip = "0.5"

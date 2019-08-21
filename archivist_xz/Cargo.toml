@@ -1,9 +1,0 @@
-[package]
-name = "archivist_xz"
-version = "0.1.0"
-authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
-edition = "2018"
-license = "MIT"
-
-[dependencies]
-xz2 = "0.1"
