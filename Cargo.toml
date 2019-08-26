@@ -20,7 +20,13 @@ members = [
 ]
 
 [dependencies]
+archivist_compress = { path = "archivist_compress" }
 clap = "2"
+toml = "0.5"
+
+[dependencies.serde]
+version = "1"
+features = [ "derive" ]
 
 [dev-dependencies]
 [dev-dependencies.cargo-husky]
