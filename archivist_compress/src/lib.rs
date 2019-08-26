@@ -94,13 +94,13 @@ mod tests {
 
             let source = dest;
             let dest = path_relative("lorem.new.txt");
-            bz2::decompress(&source, &dest);
-            let dest_contents = fs::read_to_string(&dest).expect("can't read source");
+            bz2::decompress(&source, &dest).expect("decompression failed");
+            let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
 
             assert_eq!(source_contents, dest_contents);
 
-            fs::remove_file(&source);
-            fs::remove_file(&dest);
+            fs::remove_file(&source).expect("can't delete temporary file");
+            fs::remove_file(&dest).expect("can't delete temporary file");
         }
     }
 }
