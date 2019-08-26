@@ -93,8 +93,32 @@ mod tests {
             bz2::compress(&source, &dest, 1).expect("compression failed");
 
             let source = dest;
-            let dest = path_relative("lorem.new.txt");
+            let dest = path_relative("lorem.bz2.txt");
             bz2::decompress(&source, &dest).expect("decompression failed");
+            let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
+
+            assert_eq!(source_contents, dest_contents);
+
+            fs::remove_file(&source).expect("can't delete temporary file");
+            fs::remove_file(&dest).expect("can't delete temporary file");
+        }
+    }
+
+    mod xz {
+        use crate::tests::path_relative;
+        use crate::xz;
+        use std::fs;
+
+        #[test]
+        fn compress_decompress() {
+            let source = path_relative("lorem.txt");
+            let source_contents = fs::read_to_string(&source).expect("can't read source");
+            let dest = path_relative("lorem.txt.xz");
+            xz::compress(&source, &dest, 1).expect("compression failed");
+
+            let source = dest;
+            let dest = path_relative("lorem.xz.txt");
+            xz::decompress(&source, &dest).expect("decompression failed");
             let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
 
             assert_eq!(source_contents, dest_contents);
