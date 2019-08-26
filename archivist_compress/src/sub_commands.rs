@@ -24,6 +24,7 @@ pub fn compress<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("gz")
                 .help("Use gzip compression with specified level (0: fastest to 9: best)")
                 .long("gz")
+                .short("g")
                 .aliases(&["gzip"])
                 .value_name("LEVEL")
                 .takes_value(true)
@@ -34,6 +35,7 @@ pub fn compress<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("xz")
                 .help("Use lzma compression with specified level (0: fastest to 9: best)")
                 .long("xz")
+                .short("x")
                 .aliases(&["lzma"])
                 .value_name("LEVEL")
                 .takes_value(true)
@@ -46,6 +48,7 @@ pub fn compress<'a, 'b>() -> App<'a, 'b> {
                     "Use bzip2 compression with specified level (0: fastest, 1: default, 2: best)",
                 )
                 .long("bz2")
+                .short("b")
                 .aliases(&["bzip2"])
                 .value_name("LEVEL")
                 .takes_value(true)
@@ -83,6 +86,7 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("gz")
                 .help("Use gzip compression with specified level (0: fastest to 9: best)")
                 .long("gz")
+                .short("g")
                 .aliases(&["gzip"])
                 .display_order(1),
         )
@@ -90,6 +94,7 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("xz")
                 .help("Use lzma compression with specified level (0: fastest to 9: best)")
                 .long("xz")
+                .short("x")
                 .aliases(&["lzma"])
                 .display_order(2),
         )
@@ -97,6 +102,7 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("bz2")
                 .help("Use bzip2 decompression")
                 .long("bz2")
+                .short("b")
                 .aliases(&["bzip2"])
                 .display_order(3),
         )
