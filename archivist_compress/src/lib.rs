@@ -35,7 +35,36 @@ pub mod bz2 {
     }
 }
 
-pub mod gz {}
+pub mod gz {
+    use flate2::read::GzDecoder;
+    use flate2::write::GzEncoder;
+    use flate2::Compression;
+    use std::fs::File;
+    use std::io;
+
+    pub fn compress(source: &str, dest: &str, level: u32) -> io::Result<u64> {
+        if level > 9 {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "invalid compression level",
+            ));
+        }
+        let level = Compression::new(level);
+        let dest_file = File::create(dest)?;
+        let mut dest_compressor = GzEncoder::new(dest_file, level);
+        let mut source_file = File::open(source)?;
+
+        io::copy(&mut source_file, &mut dest_compressor)
+    }
+
+    pub fn decompress(source: &str, dest: &str) -> io::Result<u64> {
+        let source_file = File::open(source)?;
+        let mut source_decompressor = GzDecoder::new(source_file);
+        let mut dest_file = File::create(dest)?;
+
+        io::copy(&mut source_decompressor, &mut dest_file)
+    }
+}
 
 pub mod xz {
     use std::fs::File;
@@ -95,6 +124,30 @@ mod tests {
             let source = dest;
             let dest = path_relative("lorem.bz2.txt");
             bz2::decompress(&source, &dest).expect("decompression failed");
+            let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
+
+            assert_eq!(source_contents, dest_contents);
+
+            fs::remove_file(&source).expect("can't delete temporary file");
+            fs::remove_file(&dest).expect("can't delete temporary file");
+        }
+    }
+
+    mod gz {
+        use crate::gz;
+        use crate::tests::path_relative;
+        use std::fs;
+
+        #[test]
+        fn compress_decompress() {
+            let source = path_relative("lorem.txt");
+            let source_contents = fs::read_to_string(&source).expect("can't read source");
+            let dest = path_relative("lorem.txt.gz");
+            gz::compress(&source, &dest, 1).expect("compression failed");
+
+            let source = dest;
+            let dest = path_relative("lorem.gz.txt");
+            gz::decompress(&source, &dest).expect("decompression failed");
             let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
 
             assert_eq!(source_contents, dest_contents);
