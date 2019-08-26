@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
 license = "GPL-3.0-or-later"
+description = "An idiot-proof archive management utility"
 
 [[bin]]
 path = "src/main.rs"

@@ -6,5 +6,6 @@ fn main() {
         .author(clap::crate_authors!())
         .about(clap::crate_description!())
         .subcommand(archivist_compress::sub_commands::compress())
+        .subcommand(archivist_compress::sub_commands::decompress())
         .get_matches();
 }
