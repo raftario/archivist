@@ -1,7 +1,8 @@
 // TODO: Merge duplicate code
 
 pub mod bz2 {
-    use bzip2::read::{BzDecoder, BzEncoder};
+    use bzip2::read::BzDecoder;
+    use bzip2::write::BzEncoder;
     use bzip2::Compression;
     use std::fs::File;
     use std::io;
@@ -39,7 +40,8 @@ pub mod gz {}
 pub mod xz {
     use std::fs::File;
     use std::io;
-    use xz2::read::{XzDecoder, XzEncoder};
+    use xz2::read::XzDecoder;
+    use xz2::write::XzEncoder;
 
     pub fn compress(source: &str, dest: &str, level: u32) -> io::Result<u64> {
         if level > 9 {
@@ -66,8 +68,39 @@ pub mod xz {
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+    use std::path::PathBuf;
+
+    fn path_relative(relative_path: &str) -> String {
+        let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        path.push("src");
+        path.push("tests");
+        let relative_path = PathBuf::from(relative_path);
+        path.push(relative_path);
+
+        path.to_str().expect("can't parse path").to_string()
+    }
+
+    mod bz2 {
+        use crate::bz2;
+        use crate::tests::path_relative;
+        use std::fs;
+
+        #[test]
+        fn compress_decompress() {
+            let source = path_relative("lorem.txt");
+            let source_contents = fs::read_to_string(&source).expect("can't read source");
+            let dest = path_relative("lorem.txt.bz2");
+            bz2::compress(&source, &dest, 1).expect("compression failed");
+
+            let source = dest;
+            let dest = path_relative("lorem.new.txt");
+            bz2::decompress(&source, &dest);
+            let dest_contents = fs::read_to_string(&dest).expect("can't read source");
+
+            assert_eq!(source_contents, dest_contents);
+
+            fs::remove_file(&source);
+            fs::remove_file(&dest);
+        }
     }
 }
