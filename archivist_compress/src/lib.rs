@@ -1,6 +1,10 @@
-pub mod sub_commands;
-
 // TODO: Merge duplicate code
+
+#[macro_use]
+extern crate clap;
+
+pub mod logic;
+pub mod sub_commands;
 
 pub mod bz2 {
     use bzip2::read::BzDecoder;
