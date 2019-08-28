@@ -11,5 +11,7 @@ fn main() {
 
     if let Some(matches) = matches.subcommand_matches("compress") {
         archivist_compress::logic::compress(matches);
+    } else if let Some(matches) = matches.subcommand_matches("decompress") {
+        archivist_compress::logic::decompress(matches);
     }
 }

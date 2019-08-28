@@ -75,8 +75,7 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("DESTINATION")
                 .help("Destination file to write")
                 .index(2)
-                .display_order(2)
-                .required_unless("algo"),
+                .display_order(2),
         )
         .arg(
             Arg::with_name("gz")

@@ -100,4 +100,57 @@ pub fn compress(matches: &ArgMatches) {
     .unwrap_or_else(|e| e_compression(e));
 }
 
-pub fn _decompress(_matches: &ArgMatches) {}
+pub fn decompress(matches: &ArgMatches) {
+    let source = matches
+        .value_of("SOURCE")
+        .unwrap_or_else(|| e_unexpected("Source not specified"));
+    let mut dest = matches.value_of("DESTINATION");
+    let (mut is_gz, mut is_xz, mut is_bz2) = (
+        matches.is_present("gz"),
+        matches.is_present("xz"),
+        matches.is_present("bz2"),
+    );
+    let mut algo = is_gz || is_xz || is_bz2;
+
+    if !algo {
+        match source.split('.').collect::<Vec<&str>>().last() {
+            Some(&"gz") => {
+                is_gz = true;
+                if dest.is_none() {
+                    let len = source.len() - 3;
+                    dest = Some(&source[..len]);
+                };
+            }
+            Some(&"xz") => {
+                is_xz = true;
+                if dest.is_none() {
+                    let len = source.len() - 3;
+                    dest = Some(&source[..len]);
+                };
+            }
+            Some(&"bz2") => {
+                is_bz2 = true;
+                if dest.is_none() {
+                    let len = source.len() - 4;
+                    dest = Some(&source[..len]);
+                };
+            }
+            _ => (),
+        };
+        algo = is_gz || is_xz || is_bz2;
+        if !algo {
+            e_nei();
+        };
+    }
+
+    // This values should always be Some(&str) at this point
+    let dest = dest.unwrap_or_else(|| e_unexpected("'dest' is None"));
+
+    match (is_gz, is_xz, is_bz2) {
+        (true, false, false) => gz::decompress(source, dest),
+        (false, true, false) => xz::decompress(source, dest),
+        (false, false, true) => bz2::decompress(source, dest),
+        _ => e_unexpected("Invalid algorithm"),
+    }
+    .unwrap_or_else(|e| e_compression(e));
+}
