@@ -107,7 +107,7 @@ mod tests {
 
     fn path_relative(relative_path: &str) -> String {
         let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        path.push("src");
+        path.push("resources");
         path.push("tests");
         let relative_path = PathBuf::from(relative_path);
         path.push(relative_path);
