@@ -86,7 +86,7 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
         )
         .arg(
             Arg::with_name("gz")
-                .help("Use gzip compression with specified level (0: fastest to 9: best)")
+                .help("Use gzip decompression")
                 .long("gz")
                 .short("g")
                 .aliases(&["gzip"])
@@ -94,7 +94,7 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
         )
         .arg(
             Arg::with_name("xz")
-                .help("Use lzma compression with specified level (0: fastest to 9: best)")
+                .help("Use lzma decompression")
                 .long("xz")
                 .short("x")
                 .aliases(&["lzma"])
