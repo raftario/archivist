@@ -55,6 +55,13 @@ pub fn compress<'a, 'b>() -> App<'a, 'b> {
                 .value_name("LEVEL")
                 .display_order(4),
         )
+        .arg(
+            Arg::with_name("overwrite")
+                .help("Overwrites the destination file if it already exists")
+                .long("overwrite")
+                .short("o")
+                .display_order(5),
+        )
 }
 
 pub fn decompress<'a, 'b>() -> App<'a, 'b> {
@@ -102,4 +109,11 @@ pub fn decompress<'a, 'b>() -> App<'a, 'b> {
                 .display_order(3),
         )
         .group(ArgGroup::with_name("algo").args(&["gz", "xz", "bz2"]))
+        .arg(
+            Arg::with_name("overwrite")
+                .help("Overwrites the destination file if it already exists")
+                .long("overwrite")
+                .short("o")
+                .display_order(4),
+        )
 }

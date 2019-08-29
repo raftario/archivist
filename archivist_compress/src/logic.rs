@@ -1,5 +1,6 @@
 use crate::{bz2, gz, xz};
 use clap::ArgMatches;
+use std::fs;
 use std::io;
 use std::process;
 
@@ -24,6 +25,19 @@ fn e_level() -> ! {
 fn e_compression(e: io::Error) -> ! {
     eprintln!("Compression error: {}", e);
     process::exit(1)
+}
+
+fn copy_old(path: &str) {
+    if fs::metadata(path).is_ok() {
+        let mut old_file = path.to_owned();
+        for i in 0..255 {
+            old_file = format!("{}.{}", path, i);
+            if fs::metadata(&old_file).is_err() {
+                break;
+            }
+        }
+        fs::copy(path, &old_file).unwrap_or_else(|_| e_unexpected("can't copy old"));
+    }
 }
 
 pub fn compress(matches: &ArgMatches) {
@@ -91,6 +105,11 @@ pub fn compress(matches: &ArgMatches) {
         .unwrap_or(format!("{}{}", source, ext.unwrap_or_else(|| "".to_owned())).as_ref())
         .to_owned();
 
+    // Rename the destination file if it already exists
+    if !matches.is_present("overwrite") {
+        copy_old(&dest);
+    }
+
     match (is_gz, is_xz, is_bz2) {
         (true, false, false) => gz::compress(source, &dest, level),
         (false, true, false) => xz::compress(source, &dest, level),
@@ -119,32 +138,37 @@ pub fn decompress(matches: &ArgMatches) {
                 if dest.is_none() {
                     let len = source.len() - 3;
                     dest = Some(&source[..len]);
-                };
+                }
             }
             Some(&"xz") => {
                 is_xz = true;
                 if dest.is_none() {
                     let len = source.len() - 3;
                     dest = Some(&source[..len]);
-                };
+                }
             }
             Some(&"bz2") => {
                 is_bz2 = true;
                 if dest.is_none() {
                     let len = source.len() - 4;
                     dest = Some(&source[..len]);
-                };
+                }
             }
             _ => (),
-        };
+        }
         algo = is_gz || is_xz || is_bz2;
         if !algo {
             e_nei();
-        };
+        }
     }
 
     // This values should always be Some(&str) at this point
     let dest = dest.unwrap_or_else(|| e_unexpected("'dest' is None"));
+
+    // Rename the destination file if it already exists
+    if !matches.is_present("overwrite") {
+        copy_old(dest);
+    }
 
     match (is_gz, is_xz, is_bz2) {
         (true, false, false) => gz::decompress(source, dest),
