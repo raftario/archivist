@@ -1,6 +1,6 @@
 [package]
 name = "archivist_compress"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
 license = "MIT"
