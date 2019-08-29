@@ -133,32 +133,32 @@ pub fn decompress(matches: &ArgMatches) {
 
     if !algo {
         match source.split('.').collect::<Vec<&str>>().last() {
-            Some(&"gz") => {
-                is_gz = true;
-                if dest.is_none() {
-                    let len = source.len() - 3;
-                    dest = Some(&source[..len]);
-                }
-            }
-            Some(&"xz") => {
-                is_xz = true;
-                if dest.is_none() {
-                    let len = source.len() - 3;
-                    dest = Some(&source[..len]);
-                }
-            }
-            Some(&"bz2") => {
-                is_bz2 = true;
-                if dest.is_none() {
-                    let len = source.len() - 4;
-                    dest = Some(&source[..len]);
-                }
-            }
+            Some(&"gz") => is_gz = true,
+            Some(&"xz") => is_xz = true,
+            Some(&"bz2") => is_bz2 = true,
             _ => (),
         }
         algo = is_gz || is_xz || is_bz2;
         if !algo {
             e_nei();
+        }
+    }
+
+    if dest.is_none() {
+        match (is_gz, is_xz, is_bz2) {
+            (true, false, false) => {
+                let len = source.len() - 3;
+                dest = Some(&source[..len]);
+            }
+            (false, true, false) => {
+                let len = source.len() - 3;
+                dest = Some(&source[..len]);
+            }
+            (false, false, true) => {
+                let len = source.len() - 4;
+                dest = Some(&source[..len]);
+            }
+            _ => e_unexpected("Invalid algorithm"),
         }
     }
 
