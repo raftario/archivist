@@ -103,32 +103,43 @@ pub mod xz {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
     use std::path::PathBuf;
 
-    fn path_relative(relative_path: &str) -> String {
-        let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        path.push("resources");
-        path.push("tests");
-        let relative_path = PathBuf::from(relative_path);
-        path.push(relative_path);
+    fn out_path(path: &str) -> String {
+        let mut out_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        out_path.pop();
+        out_path.push("target");
+        out_path.push(path);
 
-        path.to_str().expect("can't parse path").to_string()
+        out_path
+            .to_str()
+            .expect("Can't convert path to string")
+            .to_string()
+    }
+
+    fn lorem(path: &str) -> String {
+        let contents = include_str!("../resources/tests/lorem.txt").to_owned();
+
+        let dest_path = out_path(path);
+        fs::write(&dest_path, contents).expect("Can't write to file");
+        dest_path
     }
 
     mod bz2 {
         use crate::bz2;
-        use crate::tests::path_relative;
+        use crate::tests::{lorem, out_path};
         use std::fs;
 
         #[test]
         fn compress_decompress() {
-            let source = path_relative("lorem.txt");
+            let source = lorem("lorem.b.txt");
             let source_contents = fs::read_to_string(&source).expect("can't read source");
-            let dest = path_relative("lorem.txt.bz2");
+            let dest = out_path("lorem.txt.bz2");
             bz2::compress(&source, &dest, 1).expect("compression failed");
 
             let source = dest;
-            let dest = path_relative("lorem.bz2.txt");
+            let dest = out_path("lorem.bz2.txt");
             bz2::decompress(&source, &dest).expect("decompression failed");
             let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
 
@@ -141,18 +152,18 @@ mod tests {
 
     mod gz {
         use crate::gz;
-        use crate::tests::path_relative;
+        use crate::tests::{lorem, out_path};
         use std::fs;
 
         #[test]
         fn compress_decompress() {
-            let source = path_relative("lorem.txt");
+            let source = lorem("lorem.g.txt");
             let source_contents = fs::read_to_string(&source).expect("can't read source");
-            let dest = path_relative("lorem.txt.gz");
+            let dest = out_path("lorem.txt.gz");
             gz::compress(&source, &dest, 1).expect("compression failed");
 
             let source = dest;
-            let dest = path_relative("lorem.gz.txt");
+            let dest = out_path("lorem.gz.txt");
             gz::decompress(&source, &dest).expect("decompression failed");
             let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
 
@@ -164,19 +175,19 @@ mod tests {
     }
 
     mod xz {
-        use crate::tests::path_relative;
+        use crate::tests::{lorem, out_path};
         use crate::xz;
         use std::fs;
 
         #[test]
         fn compress_decompress() {
-            let source = path_relative("lorem.txt");
+            let source = lorem("lorem.x.txt");
             let source_contents = fs::read_to_string(&source).expect("can't read source");
-            let dest = path_relative("lorem.txt.xz");
+            let dest = out_path("lorem.txt.xz");
             xz::compress(&source, &dest, 1).expect("compression failed");
 
             let source = dest;
-            let dest = path_relative("lorem.xz.txt");
+            let dest = out_path("lorem.xz.txt");
             xz::decompress(&source, &dest).expect("decompression failed");
             let dest_contents = fs::read_to_string(&dest).expect("can't read dest");
 

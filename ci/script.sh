@@ -11,6 +11,11 @@ main() {
     fi
 
     cross test --all --target $TARGET
+
+    if [ $TRAVIS_PULL_REQUEST = "false" ]; then
+        return
+    fi
+
     cross test --all --target $TARGET --release
 
     cargo clippy --all -- -D warnings
