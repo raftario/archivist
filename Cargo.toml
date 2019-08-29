@@ -5,6 +5,7 @@ authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
 license = "GPL-3.0-or-later"
 description = "An idiot-proof archive management utility"
+repository = "https://github.com/raftario/archivist"
 
 [[bin]]
 path = "src/main.rs"
@@ -40,3 +41,9 @@ features = [
     "run-cargo-clippy",
     "run-cargo-fmt",
 ]
+
+[badges]
+appveyor = { repository = "raftario/archivist" }
+travis-ci = { repository = "raftario/archivist" }
+is-it-maintained-open-issues = { repository = "raftario/archivist" }
+maintenance = { status = "actively-developed" }

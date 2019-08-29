@@ -107,22 +107,19 @@ mod tests {
     use std::path::PathBuf;
 
     fn out_path(path: &str) -> String {
-        let mut out_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        out_path.pop();
-        out_path.push("target");
+        let mut out_path = PathBuf::from(env!("OUT_DIR"));
         out_path.push(path);
 
         out_path
             .to_str()
-            .expect("Can't convert path to string")
+            .expect("can't convert path to string")
             .to_string()
     }
 
     fn lorem(path: &str) -> String {
-        let contents = include_str!("../resources/tests/lorem.txt").to_owned();
-
+        let source_path = out_path("lorem.txt");
         let dest_path = out_path(path);
-        fs::write(&dest_path, contents).expect("Can't write to file");
+        fs::copy(&source_path, &dest_path).expect("can't copy file");
         dest_path
     }
 
