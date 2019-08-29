@@ -7,6 +7,6 @@ license = "MIT"
 
 [dependencies]
 [dependencies.cursive]
-version = "0.13"
+version = "0.13.0"
 default-features = false
 features = [ "crossterm-backend" ]

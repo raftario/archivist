@@ -6,4 +6,4 @@ edition = "2018"
 license = "MIT"
 
 [dependencies]
-reqwest = "0.9"
+reqwest = "0.9.20"

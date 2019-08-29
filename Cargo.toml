@@ -23,16 +23,16 @@ members = [
 
 [dependencies]
 archivist_compress = { path = "archivist_compress" }
-clap = "2"
-toml = "0.5"
+clap = "2.33.0"
+toml = "0.5.3"
 
 [dependencies.serde]
-version = "1"
+version = "1.0.99"
 features = [ "derive" ]
 
 [dev-dependencies]
 [dev-dependencies.cargo-husky]
-version = "1"
+version = "1.4.0"
 default-features = false
 features = [
     "run-for-all",
