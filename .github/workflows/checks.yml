@@ -11,6 +11,7 @@ jobs:
       with:
         install-rustfmt: true
         install-clippy: true
+        cache: false
     - name: Check for clippy warnings
       run: cargo clippy --all -- -D warnings
     - name: Check formatting
