@@ -1,0 +1,34 @@
+name: Rust tests
+on: [push, pull_request]
+jobs:
+  test-native:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        channel: [stable, nightly]
+        host: [x86_64, i686]
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: raftario/setup-rust-action@v1
+      with:
+        rust-channel: ${{ matrix.channel }}
+    - name: Run tests
+      run: cargo test -v
+  test-cross:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [aarch64-unknown-linux-gnu, arm-unknown-linux-gnueabi, armv7-unknown-linux-gnueabihf]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - uses: raftario/setup-rust-action@v1
+        with:
+          rust-target: ${{ matrix.target }}
+          install-cross: true
+      - name: Run tests
+        run: cross test -v
