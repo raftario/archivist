@@ -30,17 +30,12 @@ jobs:
       run: cargo test --all
   macos:
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        host: [x86_64-apple-darwin, i686-apple-darwin]
     steps:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
     - uses: raftario/setup-rust-action@v1
       with:
-        rust-channel: stable
-        rust-host: ${{ matrix.host }}
         cache: false
     - name: Run tests
       run: cargo test --all
