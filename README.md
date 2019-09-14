@@ -2,7 +2,7 @@
 
 An idiot-proof archive management utility
 
-[![Travis](https://img.shields.io/travis/com/raftario/archivist?style=flat-square)](https://travis-ci.com/raftario/archivist) [![AppVeyor](https://img.shields.io/appveyor/ci/raftario/archivist?style=flat-square&logo=appveyor)](https://ci.appveyor.com/project/raftario/archivist)
+[![GitHub Actions](https://github.com/raftario/archivist/workflows/Tests/badge.svg)](https://launch-editor.github.com/actions?workflowID=Tests)
 
 ## About
 
