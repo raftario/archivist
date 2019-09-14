@@ -1,12 +1,11 @@
-name: Rust tests
+name: Tests
 on: [push, pull_request]
 jobs:
-  test-native:
+  test-stable:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        channel: [stable, nightly]
         host: [x86_64, i686]
     steps:
     - uses: actions/checkout@v1
@@ -14,9 +13,24 @@ jobs:
         fetch-depth: 1
     - uses: raftario/setup-rust-action@v1
       with:
-        rust-channel: ${{ matrix.channel }}
+        rust-channel: stable
+        rust-host: ${{ matrix.host }}
     - name: Run tests
-      run: cargo test -v
+      run: cargo test --all
+  test-nightly:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - uses: raftario/setup-rust-action@v1
+        with:
+          rust-channel: nightly
+      - name: Run tests
+        run: cargo test --all
   test-cross:
     runs-on: ubuntu-latest
     strategy:
@@ -31,4 +45,4 @@ jobs:
           rust-target: ${{ matrix.target }}
           install-cross: true
       - name: Run tests
-        run: cross test -v
+        run: cross test --all --target ${{ matrix.target }}

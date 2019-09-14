@@ -1,4 +1,4 @@
-name: Rust checks
+name: Checks
 on: [pull_request]
 jobs:
   check:
@@ -12,7 +12,7 @@ jobs:
         install-rustfmt: true
         install-clippy: true
     - name: Check for clippy warnings
-      run: cargo clippy -- -D warnings
+      run: cargo clippy --all -- -D warnings
     - name: Check formatting
-      run: cargo fmt -v -- --check
+      run: cargo fmt --all -- --check
       
